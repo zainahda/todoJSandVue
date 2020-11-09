@@ -7,6 +7,7 @@
                 <!-- {{ todo.text }} -->
                 <s v-if="todo.completed">{{ todo.text }}</s>
                 <span v-if="!todo.completed">{{ todo.text }}</span>
+
                     <span class="button-group">
                         <!-- complete button -->
                         <div class="btn btn-success rounded-circle ml-5 mr-1 mt-1" v-on:click="complete(index)">
@@ -21,7 +22,9 @@
                             </svg>
                         </div>
                         <!-- edit button -->
-                        <div class="btn btn-secondary rounded-circle mt-1" v-on:click="edit(index)">
+                <span v-if='!todo.edit' @click='enableEdit(index)'></span>
+                <input v-else type="text" v-model="todo.text" :ref="'task'" @keyup.enter="disableEdit(index)" @blur="disableEdit(index)">
+                        <div class="btn btn-secondary rounded-circle mt-1" v-on:click="enableEdit(index)">
                             <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-pencil-square" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                             <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456l-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
                             <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
@@ -39,7 +42,7 @@
         data: function(){
             return{
                 inputTodo: '',
-                todoList: []
+                todoList: [],
             }
         },
         methods:{
@@ -56,9 +59,6 @@
             remove: function(index){
                 this.todoList.splice(index, 1);
             },
-            edit: function(newTodo){
-                this.todoList.push(newTodo)
-            }
         }
     }
 </script>
